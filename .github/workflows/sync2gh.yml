@@ -1,16 +1,17 @@
 on:
-  push:
-  pull_request_target:
-    branches: [master]
-name: Tests / test-user-mirror (cached)
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    
+name: Mirror
 jobs:
   run:
     name: Run
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout source code
+    - name: Checkout source codes
       uses: actions/checkout@v1
-
+    
     - name: Get Time
       id: get-time
       run: |
@@ -24,18 +25,18 @@ jobs:
         path: ${{ github.workspace }}/hub-mirror-cache
         key: ${{ runner.os }}-hub-repos-cache-${{ steps.get-time.outputs.date }}
         restore-keys: ${{ runner.os }}-hub-repos-cache
-
-    - name: Mirror Github to Gitee with white list and cache
+        
+    - name: Mirror with white list
       uses: ./.
       with:
-        src: github/Yikun
-        dst: gitee/yikunkero
-        dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
-        dst_token:  ${{ secrets.GITEE_TOKEN }}
+        src: git.techo.cool/poormonitor
+        dst: github/poormonitor
+        dst_key: ${{ secrets.PRIVATE_KEY }}
+        dst_token:  ${{ secrets.GH_TOKEN }}
         cache_path: /github/workspace/hub-mirror-cache
-        white_list: 'hub-mirror-action, hexo-migrator-github-issue'
         force_update: true
-
+    
     - name: Print cache path
       run: |
         ls -la ${{ github.workspace }}/hub-mirror-cache
+        
