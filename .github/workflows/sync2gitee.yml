@@ -19,5 +19,6 @@ jobs:
         dst: gitee/poormonitor
         dst_key: ${{ secrets.PRIVATE_KEY }}
         dst_token:  ${{ secrets.GITEE_TOKEN }}
+        black_list: "hub-mirror-action"
         force_update: true
         
