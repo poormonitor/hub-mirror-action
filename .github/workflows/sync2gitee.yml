@@ -12,6 +12,10 @@ jobs:
     - name: Checkout source codes
       uses: actions/checkout@v1
 
+    - name: Get repository list exclude private and fork
+      uses: yi-Xu-0100/repo-list-generator@v1.0.1
+      id: repo
+
     - name: Get Time
       id: get-time
       run: echo "date=$(/bin/date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
@@ -24,7 +28,7 @@ jobs:
         path: ${{ github.workspace }}/hub-mirror-cache
         key: ${{ runner.os }}-hub-repos-cache-${{ steps.get-time.outputs.date }}
         restore-keys: ${{ runner.os }}-hub-repos-cache-gitee
-        
+
     - name: Mirror with list
       uses: ./.
       with:
@@ -32,10 +36,10 @@ jobs:
         dst: gitee/poormonitor
         dst_key: ${{ secrets.PRIVATE_KEY }}
         dst_token:  ${{ secrets.GITEE_TOKEN }}
+        static_list: ${{ steps.repo.outputs.repoList }}
         cache_path: /github/workspace/hub-mirror-cache
         force_update: true
     
     - name: Print cache path
       run: |
         ls -la ${{ github.workspace }}/hub-mirror-cache
-        
