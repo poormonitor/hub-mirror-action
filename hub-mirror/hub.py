@@ -20,12 +20,13 @@ class Hub(object):
         self.dst_type, self.dst_account = dst.split('/')
         self.dst_token = dst_token
         self.session = requests.Session()
+
         if self.dst_type == "gitee":
             self.dst_base = 'https://gitee.com/api/v5'
         elif self.dst_type == "github":
             self.dst_base = 'https://api.github.com'
         else:
-            self.dst_base = 'https://' + dst_type + "/api/v1"
+            self.dst_base = 'https://' + self.dst_type + "/api/v1"
 
         prefix = "https://" if clone_style == 'https' else 'git@'
         suffix = "/" if clone_style == 'https' else ':'
@@ -36,8 +37,8 @@ class Hub(object):
             self.src_base = 'https://api.github.com'
             self.src_repo_base = prefix + 'github.com' + suffix
         else:
-            self.src_base = 'https://' + src_type + "/api/v1"
-            self.src_repo_base = prefix + src_type + suffix
+            self.src_base = 'https://' + self.src_type + "/api/v1"
+            self.src_repo_base = prefix + self.src_type + suffix
 
         self.src_repo_base = self.src_repo_base + self.src_account
         # TODO: toekn push support
