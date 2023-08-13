@@ -62,7 +62,7 @@ class Hub(object):
         suffix = 'user/repos'
         if self.dst_account_type == "org":
             suffix = 'orgs/%s/repos' % self.dst_account
-            
+
         url = '/'.join(
             [self.dst_base, suffix]
         )
@@ -142,6 +142,6 @@ class Hub(object):
             return all_items
         items = response.json()
         if items:
-            names = [i['name'] for i in items]
+            names = [i['name'] for i in items if not i['private']]
             return names + self._get_all_repo_names(url, page=page+1)
         return all_items
