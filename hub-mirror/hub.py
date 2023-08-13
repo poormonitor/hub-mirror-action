@@ -142,6 +142,6 @@ class Hub(object):
             return all_items
         items = response.json()
         if items:
-            names = [i['name'] for i in items if not i['private']]
+            names = [i['name'] for i in items]
             return names + self._get_all_repo_names(url, page=page+1)
         return all_items
