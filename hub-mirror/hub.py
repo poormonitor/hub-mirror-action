@@ -62,16 +62,22 @@ class Hub(object):
         suffix = 'user/repos'
         if self.dst_account_type == "org":
             suffix = 'orgs/%s/repos' % self.dst_account
+            
         url = '/'.join(
             [self.dst_base, suffix]
         )
         result = None
+
         if self.dst_type == 'gitee':
             data = {'name': repo_name}
         elif self.dst_type == 'github':
             data = json.dumps({'name': repo_name})
+        else:
+            data = json.dumps({'name': repo_name})
+
         if not self.has_dst_repo(repo_name):
             print(repo_name + " doesn't exist, create it...")
+
             if self.dst_type == "github":
                 response = self.session.post(
                     url,
@@ -83,6 +89,7 @@ class Hub(object):
                     print("Destination repo creating accepted.")
                 else:
                     print("Destination repo creating failed: " + response.text)
+
             elif self.dst_type == "gitee":
                 response = requests.post(
                     url,
@@ -94,6 +101,19 @@ class Hub(object):
                     print("Destination repo creating accepted.")
                 else:
                     print("Destination repo creating failed: " + response.text)
+
+            else:
+                response = self.session.post(
+                    url,
+                    data=data,
+                    headers={'Authorization': 'token ' + self.dst_token}
+                )
+                result = response.status_code == 201
+                if result:
+                    print("Destination repo creating accepted.")
+                else:
+                    print("Destination repo creating failed: " + response.text)
+
         else:
             print(repo_name + " repo exist, skip creating...")
         # TODO(snowyu): Cleanup 2s sleep
