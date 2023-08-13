@@ -28,15 +28,15 @@ jobs:
       with:
         path: ${{ github.workspace }}/hub-mirror-cache
         key: ${{ runner.os }}-hub-repos-cache-${{ steps.get-time.outputs.date }}
-        restore-keys: ${{ runner.os }}-hub-repos-cache-gitee
+        restore-keys: ${{ runner.os }}-hub-repos-cache-github
         
     - name: Mirror with list
       uses: ./.
       with:
-        src: github/poormonitor
-        dst: gitee/poormonitor
+        src: git.techo.cool/poormonitor
+        dst: github/poormonitor
         dst_key: ${{ secrets.PRIVATE_KEY }}
-        dst_token:  ${{ secrets.GITEE_TOKEN }}
+        dst_token:  ${{ secrets.GH_TOKEN }}
         cache_path: /github/workspace/hub-mirror-cache
         static_list: ${{ steps.repo.outputs.repoList }}
         force_update: true

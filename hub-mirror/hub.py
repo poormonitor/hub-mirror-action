@@ -24,6 +24,8 @@ class Hub(object):
             self.dst_base = 'https://gitee.com/api/v5'
         elif self.dst_type == "github":
             self.dst_base = 'https://api.github.com'
+        else:
+            self.dst_base = 'https://' + dst_type + "/api/v1"
 
         prefix = "https://" if clone_style == 'https' else 'git@'
         suffix = "/" if clone_style == 'https' else ':'
@@ -33,6 +35,10 @@ class Hub(object):
         elif self.src_type == "github":
             self.src_base = 'https://api.github.com'
             self.src_repo_base = prefix + 'github.com' + suffix
+        else:
+            self.src_base = 'https://' + src_type + "/api/v1"
+            self.src_repo_base = prefix + src_type + suffix
+
         self.src_repo_base = self.src_repo_base + self.src_account
         # TODO: toekn push support
         prefix = "git@" + self.dst_type + ".com:"
