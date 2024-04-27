@@ -10,7 +10,11 @@ mkdir -p /root/.ssh
 echo "${INPUT_DST_KEY}" > /root/.ssh/id_rsa
 chmod 600 /root/.ssh/id_rsa
 
+python3 -m venv /hub-mirror/venv
+source /hub-mirror/venv/bin/activate
 pip3 install -r /hub-mirror/requirements.txt
+
+git lfs install
 
 python3 /hub-mirror/hubmirror.py --src "${INPUT_SRC}" --dst "${INPUT_DST}" \
 --dst-token "${INPUT_DST_TOKEN}" \
@@ -25,7 +29,8 @@ python3 /hub-mirror/hubmirror.py --src "${INPUT_SRC}" --dst "${INPUT_DST}" \
 --force-update "${INPUT_FORCE_UPDATE}" \
 --debug "${INPUT_DEBUG}" \
 --timeout  "${INPUT_TIMEOUT}" \
---mappings  "${INPUT_MAPPINGS}"
+--mappings  "${INPUT_MAPPINGS}" \
+--lfs "${INPUT_LFS}"
 
 # Skip original code
 exit $?
