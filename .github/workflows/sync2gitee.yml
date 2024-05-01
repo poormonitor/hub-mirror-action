@@ -22,8 +22,7 @@ jobs:
       id: cache
       with:
         path: ${{ github.workspace }}/hub-mirror-cache
-        key: ${{ runner.os }}-hub-repos-cache-gitee-${{ steps.get-time.outputs.date }}
-        restore-keys: ${{ runner.os }}-hub-repos-cache-gitee
+        key: hub-repos-cache-gitee
 
     - name: Mirror with list
       uses: ./.
