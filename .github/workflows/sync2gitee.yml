@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout source codes
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
 
     - name: Get repository list exclude private and fork
-      uses: yi-Xu-0100/repo-list-generator@v1.0.1
+      uses: yi-Xu-0100/repo-list-generator@v1.1.1
       id: repo
 
     - name: Get Time
