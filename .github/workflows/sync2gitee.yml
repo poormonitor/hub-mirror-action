@@ -12,17 +12,13 @@ jobs:
     - name: Checkout source codes
       uses: actions/checkout@v4
 
-    - name: Get repository list exclude private and fork
-      uses: yi-Xu-0100/repo-list-generator@v1.1.1
-      id: repo
-
     - name: Get Time
       id: get-time
       run: echo "date=$(/bin/date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache src repos
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       id: cache
       with:
         path: ${{ github.workspace }}/hub-mirror-cache
